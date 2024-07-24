@@ -1,21 +1,19 @@
-// @ts-check
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
 
-test('homepage has Playwright in title and get started link linking to the intro page', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('has title', async ({ page }) => {
+  await page.goto('https://hotrave.herokuapp.com/');
 
   // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+  await expect(page).toHaveTitle(/Social App/);
+});
 
-  // create a locator
-  const getStarted = page.locator('text=Get Started');
-
-  // Expect an attribute "to be strictly equal" to the value.
-  await expect(getStarted).toHaveAttribute('href', '/docs/intro');
+test('get started link', async ({ page }) => {
+  await page.goto('https://hotrave.herokuapp.com/');
 
   // Click the get started link.
-  await getStarted.click();
-  
-  // Expects the URL to contain intro.
-  await expect(page).toHaveURL(/.*intro/);
+  await page.getByRole('link', { name: 'Get started' }).click();
+
+  // Expects page to have a heading with the name of Installation.
+  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
+
